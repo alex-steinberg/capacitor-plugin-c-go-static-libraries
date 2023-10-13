@@ -1,17 +1,25 @@
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Camera } from '@capacitor/camera';
+import { GoGetter } from "../../../src";
 
-window.customElements.define(
-  'capacitor-welcome',
-  class extends HTMLElement {
+window.customElements.define('capacitor-welcome', class extends HTMLElement {
     constructor() {
-      super();
+        super();
 
-      SplashScreen.hide();
+        SplashScreen.hide();
 
-      const root = this.attachShadow({ mode: 'open' });
+        const root = this.attachShadow({ mode: 'open' });
 
-      root.innerHTML = `
+        const getEcho = async () => {
+            console.log('========> clicked')
+            const inputValue = root.getElementById("echo").value;
+            console.log({inputValue})
+            const res = await GoGetter.echo({value: inputValue})
+            console.log({res})
+            root.getElementById("echoed-back").innerHTML = res.value
+        }
+
+        root.innerHTML = `
     <style>
       :host {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -57,60 +65,22 @@ window.customElements.define(
     </style>
     <div>
       <capacitor-welcome-titlebar>
-        <h1>Capacitor</h1>
+        <h1>Go Getter</h1>
       </capacitor-welcome-titlebar>
       <main>
-        <p>
-          Capacitor makes it easy to build powerful apps for the app stores, mobile web (Progressive Web Apps), and desktop, all
-          with a single code base.
-        </p>
-        <h2>Getting Started</h2>
-        <p>
-          You'll probably need a UI framework to build a full-featured app. Might we recommend
-          <a target="_blank" href="http://ionicframework.com/">Ionic</a>?
-        </p>
-        <p>
-          Visit <a href="https://capacitorjs.com">capacitorjs.com</a> for information
-          on using native features, building plugins, and more.
-        </p>
-        <a href="https://capacitorjs.com" target="_blank" class="button">Read more</a>
-        <h2>Tiny Demo</h2>
-        <p>
-          This demo shows how to call Capacitor plugins. Say cheese!
-        </p>
-        <p>
-          <button class="button" id="take-photo">Take Photo</button>
-        </p>
-        <p>
-          <img id="image" style="max-width: 100%">
-        </p>
+        <label for="echo">What would you like to echo?</label>
+        <input type="text" name="echo" id="echo">
+        <button id="getEchoButton">Get echo</button>
+        <p>Echoed back: <span id="echoed-back"></span></p>
       </main>
     </div>
     `;
+
+        root.querySelector('#getEchoButton').addEventListener('click', getEcho);
     }
 
-    connectedCallback() {
-      const self = this;
 
-      self.shadowRoot.querySelector('#take-photo').addEventListener('click', async function (e) {
-        try {
-          const photo = await Camera.getPhoto({
-            resultType: 'uri',
-          });
-
-          const image = self.shadowRoot.querySelector('#image');
-          if (!image) {
-            return;
-          }
-
-          image.src = photo.webPath;
-        } catch (e) {
-          console.warn('User cancelled', e);
-        }
-      });
-    }
-  }
-);
+});
 
 window.customElements.define(
   'capacitor-welcome-titlebar',
