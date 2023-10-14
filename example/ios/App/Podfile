@@ -13,12 +13,12 @@ def capacitor_pods
   pod 'CapacitorCordova', :path => '../../node_modules/@capacitor/ios'
   pod 'CapacitorCamera', :path => '../../node_modules/@capacitor/camera'
   pod 'CapacitorSplashScreen', :path => '../../node_modules/@capacitor/splash-screen'
+  pod 'GoGetter', :path => '../../..'
 end
 
 target 'App' do
   capacitor_pods
   # Add your Pods here
-  pod 'GoGetter', :path => '../../../GoGetter.podspec'
 end
 
 post_install do |installer|
