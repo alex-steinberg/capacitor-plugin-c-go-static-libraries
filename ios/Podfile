@@ -9,6 +9,7 @@ end
 
 target 'Plugin' do
   capacitor_pods
+  pod 'GoGetter', :path => '../GoGetter.podspec'
 end
 
 target 'PluginTests' do

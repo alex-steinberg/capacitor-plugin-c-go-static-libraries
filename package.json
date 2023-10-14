@@ -1,6 +1,6 @@
 {
   "name": "go-getter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Test the faulty Go plugin",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",

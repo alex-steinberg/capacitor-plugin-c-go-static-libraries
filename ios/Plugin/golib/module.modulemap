@@ -1,0 +1,5 @@
+module golib [system][extern_c] {
+ header "libgolib.h"
+ link "golib"
+ export *
+}
